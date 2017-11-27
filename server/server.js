@@ -3,6 +3,8 @@ const http = require('http')
 const express = require('express')
 const socketIO = require('socket.io')
 
+const {generateMessage} = require('./utils/message')
+
 const app = express()
 const server = http.createServer(app)
 const io = socketIO(server)
@@ -15,26 +17,16 @@ app.use(express.static(publicPath))
 //socketio event listener
 //callback
 io.on('connection', (socket) => {
+
 	console.log('New User connected')
-	socket.emit('newMessage', {
-		from: 'Admin',
-		test: 'Welcome to the server',
-		createdAt: new Date().getTime()
-	})
-	socket.broadcast.emit('newMessage', {
-		from: 'Admin',
-		test: 'New user joined',
-		createdAt: new Date().getTime()
-	})
+	socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'))
+
+	socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined the channel'))
 
 	
 	//socket is een custom event listener
-
 	socket.on('createMessage', (newMsg) => {
 		console.log('createMessage', newMsg)
-
-	
-
 		io.emit('newMessage', {
 			from: newMsg.from,
 			text: newMsg.test,
