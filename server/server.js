@@ -16,16 +16,35 @@ app.use(express.static(publicPath))
 //callback
 io.on('connection', (socket) => {
 	console.log('New User connected')
+	socket.emit('newMessage', {
+		from: 'Admin',
+		test: 'Welcome to the server',
+		createdAt: new Date().getTime()
+	})
+	socket.broadcast.emit('newMessage', {
+		from: 'Admin',
+		test: 'New user joined',
+		createdAt: new Date().getTime()
+	})
+
 	
 	//socket is een custom event listener
 
 	socket.on('createMessage', (newMsg) => {
 		console.log('createMessage', newMsg)
+
+	
+
 		io.emit('newMessage', {
 			from: newMsg.from,
 			text: newMsg.test,
 			createdAt: new Date().getTime()
 		})
+		// socket.broadcast.emit('newMessage', {
+		// 	from: newMsg.from,
+		// 	text: newMsg.text,
+		// 	createdAt: new Date().getTime()
+		// })
 	})
 
 	socket.on('disconnect', () => {

@@ -4,12 +4,12 @@ var socket = io()
 socket.on('connect', function () {
 	console.log('Connected to server')
 
-socket.on('disconnect', function () {
-	console.log('Connection lost')
-})
-//email callback komt van server.js socket.emit
+	socket.on('disconnect', function () {
+		console.log('Connection lost')
+	})
+	//email callback komt van server.js socket.emit
 
-socket.on('newMessage', function (msg) {
-	console.log('New message', msg)
-})
+	socket.on('newMessage', function (msg) {
+		console.log('New message', msg)
+	})
 })
