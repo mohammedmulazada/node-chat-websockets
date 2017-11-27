@@ -19,14 +19,6 @@ socket.on('newMessage', function (message) {
 	document.querySelector('#messages').appendChild(li)
 })
 
-socket.emit('createMessage', {
-	from: 'Frank',
-	text: 'Hi'
-}, function (data) {
-	console.log('Got it', data)
-})
-
-
 //f jquery
 // $('#message-form').on('submit', function (e) {
 // 	e.preventDefault()
