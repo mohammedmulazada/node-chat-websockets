@@ -17,17 +17,18 @@ app.use(express.static(publicPath))
 //socketio event listener
 //callback
 io.on('connection', (socket) => {
-
 	console.log('New User connected')
+
 	socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'))
 
 	socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined the channel'))
 
 	
 	//socket is een custom event listener
-	socket.on('createMessage', (newMsg) => {
+	socket.on('createMessage', (newMsg, callback) => {
 		console.log('createMessage', newMsg)
 		io.emit('newMessage', generateMessage(newMsg.from, newMsg.text))
+		callback('This is from the server')
 		// 	from: newMsg.from,
 		// 	text: newMsg.test,
 		// 	createdAt: new Date().getTime()
