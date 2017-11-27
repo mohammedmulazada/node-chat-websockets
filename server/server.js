@@ -27,14 +27,9 @@ io.on('connection', (socket) => {
 	//socket is een custom event listener
 	socket.on('createMessage', (newMsg) => {
 		console.log('createMessage', newMsg)
-		io.emit('newMessage', {
-			from: newMsg.from,
-			text: newMsg.test,
-			createdAt: new Date().getTime()
-		})
-		// socket.broadcast.emit('newMessage', {
+		io.emit('newMessage', generateMessage(newMsg.from, newMsg.text))
 		// 	from: newMsg.from,
-		// 	text: newMsg.text,
+		// 	text: newMsg.test,
 		// 	createdAt: new Date().getTime()
 		// })
 	})
