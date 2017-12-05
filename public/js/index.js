@@ -10,14 +10,23 @@ socket.on('disconnect', function () {
 
 socket.on('newMessage', function (message) {
 	const formattedTime = moment(message.createdAt).format('H:mm')
-	console.log('newMessage', message)
-	var li = document.createElement('li')
-	var liText = document.createTextNode(`${message.from} ${formattedTime}: ${message.text}`)
-	li.appendChild(liText)
+	const template = jQuery('#message-template').html()
+	const html = Mustache.render(template, {
+		text: message.text,
+		from: message.from,
+		createdAt: formattedTime
+	})
 
-	console.log(li)
+	jQuery('#messages').append(html)
+	
+	// console.log('newMessage', message)
+	// var li = document.createElement('li')
+	// var liText = document.createTextNode(`${message.from} ${formattedTime}: ${message.text}`)
+	// li.appendChild(liText)
 
-	document.querySelector('#messages').appendChild(li)
+	// console.log(li)
+
+	// document.querySelector('#messages').appendChild(li)
 })
 
 document.querySelector('#message-form').addEventListener('submit', function (e) {
@@ -32,14 +41,16 @@ document.querySelector('#message-form').addEventListener('submit', function (e) 
 })
 
 socket.on('newLocationMessage', function (message) {
-	var li = jQuery('<li></li>')
-	var a = jQuery('<a target="_blank">My current location</a>')
 	const formattedTime = moment(message.createdAt).format('H:mm')
+	const template = jQuery('#location-message-template').html()
+	const html = Mustache.render(template, {
+		from: message.from,
+		createdAt: formattedTime,
+		url: message.url
+	})
 
-	li.text(`${message.from} ${formattedTime}: `)
-	a.attr('href', message.url)
-	li.append(a)
-	jQuery('#messages').append(li)
+	jQuery('#messages').append(html)
+
 })
 
 
