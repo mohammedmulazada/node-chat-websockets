@@ -1,27 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=p, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
+	<link rel="stylesheet" href="/css/styles.css">
 </head>
-<body>
-	<p>This is the chat app</p>
 
-	<ol id='messages'></ol>
+<body class="chat">
 
-	<form id='message-form'>
-		<input name='message' type='text' placeholder='Message'/>
-		<button>Send</button>
-	</form>
-	<button id='send-location'>Send Location</button>
+	<div class="chat__sidebar">
+		<h3>Humans</h3>
+		<div id='users'>
+
+		</div>
+	</div>
+
+
+	<div class="chat__main">
+		<ol id='messages' class="chat__messages"></ol>
+
+		<div class="chat__footer">
+			<form id='message-form'>
+				<input name='message' type='text' placeholder='Message' autocomplete="off" autofocus/>
+				<button>Send</button>
+			</form>
+			<button id='send-location'>Send Location</button>
+		</div>
+
+
+	</div>
 
 	<script src="/socket.io/socket.io.js"></script>
-	<script
-	src="https://code.jquery.com/jquery-3.2.1.min.js"
-	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	    crossorigin="anonymous"></script>
 	<script src="/js/index.js"></script>
+	<script src="/js/libs/moment.js"></script>
 </body>
+
 </html>
