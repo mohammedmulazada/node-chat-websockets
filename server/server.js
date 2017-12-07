@@ -1,25 +1,23 @@
-const path = require('path')
-const http = require('http')
-const express = require('express')
-const socketIO = require('socket.io')
-
-const {
-	generateMessage,
-	generateLocationMessage
-} = require('./utils/message')
-const {
-	isRealString
-} = require('./utils/validation')
-const {
-	Users
-} = require('./utils/users')
-
-const publicPath = path.join(__dirname, '../public')
-const port = process.env.PORT || 3000
-var app = express()
-var server = http.createServer(app)
-var io = socketIO(server)
-var users = new Users()
+const path = require('path'),
+	http = require('http'),
+	express = require('express'),
+	socketIO = require('socket.io'),
+	{
+		generateMessage,
+		generateLocationMessage,
+	} = require('./utils/message'),
+	{
+		isRealString,
+	} = require('./utils/validation'),
+	{
+		Users,
+	} = require('./utils/users'),
+	publicPath = path.join(__dirname, '../public'),
+	port = process.env.PORT || 3000,
+	app = express(),
+	server = http.createServer(app),
+	io = socketIO(server),
+	users = new Users()
 
 app.use(express.static(publicPath))
 
@@ -42,7 +40,7 @@ io.on('connection', (socket) => {
 	})
 
 	socket.on('createMessage', (message, callback) => {
-		var user = users.getUser(socket.id)
+		const user = users.getUser(socket.id)
 
 		if (user && isRealString(message.text)) {
 			io.to(user.room).emit('newMessage', generateMessage(user.name, message.text))
@@ -52,7 +50,7 @@ io.on('connection', (socket) => {
 	})
 
 	socket.on('createLocationMessage', (coords) => {
-		var user = users.getUser(socket.id)
+		const user = users.getUser(socket.id)
 
 		if (user) {
 			io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude))
@@ -60,7 +58,7 @@ io.on('connection', (socket) => {
 	})
 
 	socket.on('disconnect', () => {
-		var user = users.removeUser(socket.id)
+		const user = users.removeUser(socket.id)
 
 		if (user) {
 			io.to(user.room).emit('updateUserList', users.getUserList(user.room))
